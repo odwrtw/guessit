@@ -19,7 +19,7 @@ const (
 
 // Response from the API
 type Response struct {
-	Number   int    `json:"episodeNumber"`
+	Episode  int    `json:"episodeNumber"`
 	Quality  string `json:"screenSize"`
 	Season   int    `json:"season"`
 	ShowName string `json:"series"`
