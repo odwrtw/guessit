@@ -2,10 +2,17 @@ package guessit
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
+)
+
+// Errors
+var (
+	ErrInvalidRequest = errors.New("invalid guessit request")
+	ErrServer         = errors.New("guessit server error")
 )
 
 // APIendpoint
@@ -38,13 +45,23 @@ func Guess(filename string) (*Response, error) {
 	urlValues := &url.Values{}
 	urlValues.Add("filename", filename)
 	u.RawQuery = urlValues.Encode()
-	fmt.Println(u)
+	log.Println("Guessit:", u)
 
 	resp, err := http.Get(u.String())
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
+
+	// Check http status
+	switch resp.StatusCode {
+	case http.StatusOK:
+		// All good
+	case http.StatusBadRequest:
+		return nil, ErrInvalidRequest
+	default:
+		return nil, ErrServer
+	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
