@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 )
@@ -16,7 +15,7 @@ var (
 )
 
 // APIendpoint
-const APIendpoint = "http://guessit.io/guess"
+const APIendpoint = "http://guessit.quimbo.fr/guess/"
 
 // Types
 const (
@@ -37,17 +36,8 @@ type Response struct {
 
 // Guess calls the guessit API to get the response
 func Guess(filename string) (*Response, error) {
-	// Generate URL
-	u, err := url.Parse(APIendpoint)
-	if err != nil {
-		return nil, err
-	}
-	urlValues := &url.Values{}
-	urlValues.Add("filename", filename)
-	u.RawQuery = urlValues.Encode()
-	log.Println("Guessit:", u)
-
-	resp, err := http.Get(u.String())
+	// Guess it
+	resp, err := http.Get(APIendpoint + url.QueryEscape(filename))
 	if err != nil {
 		return nil, err
 	}
