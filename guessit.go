@@ -25,13 +25,14 @@ const (
 
 // Response from the API
 type Response struct {
-	Episode  int    `json:"episodeNumber"`
-	Quality  string `json:"screenSize"`
-	Season   int    `json:"season"`
-	ShowName string `json:"series"`
-	Title    string `json:"title"`
-	Type     string `json:"type"`
-	Year     int    `json:"year"`
+	Episode      int    `json:"episodeNumber"`
+	Quality      string `json:"screenSize"`
+	Season       int    `json:"season"`
+	ShowName     string `json:"series"`
+	Title        string `json:"title"`
+	Type         string `json:"type"`
+	Year         int    `json:"year"`
+	ReleaseGroup string `json:"releaseGroup"`
 }
 
 // Guess calls the guessit API to get the response
