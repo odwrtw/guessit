@@ -10,8 +10,8 @@ import (
 
 // Errors
 var (
-	ErrInvalidRequest = errors.New("invalid guessit request")
-	ErrServer         = errors.New("guessit server error")
+	ErrInvalidRequest = errors.New("guessit: invalid request")
+	ErrServer         = errors.New("guessit: server error")
 )
 
 // APIendpoint
