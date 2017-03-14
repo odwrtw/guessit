@@ -10,35 +10,42 @@ import (
 
 // Errors
 var (
-	ErrInvalidRequest = errors.New("invalid guessit request")
-	ErrServer         = errors.New("guessit server error")
-)
-
-// APIendpoint
-const APIendpoint = "http://guessit.quimbo.fr/guess/"
-
-// Types
-const (
-	Episode = "episode"
-	Movie   = "movie"
+	ErrInvalidRequest = errors.New("guessit: invalid request")
+	ErrServer         = errors.New("guessit: server error")
 )
 
 // Response from the API
 type Response struct {
-	Episode      int    `json:"episodeNumber"`
-	Quality      string `json:"screenSize"`
-	Season       int    `json:"season"`
-	ShowName     string `json:"series"`
-	Title        string `json:"title"`
 	Type         string `json:"type"`
+	Title        string `json:"title"`
+	Episode      int    `json:"episode"`
+	Season       int    `json:"season"`
 	Year         int    `json:"year"`
+	Quality      string `json:"screenSize"`
 	ReleaseGroup string `json:"releaseGroup"`
+	AudioCodec   string `json:"audio_codec"`
+	VideoCodec   string `json:"video_codec"`
+	Container    string `json:"container"`
+	Format       string `json:"format"`
+	MimeType     string `json:"mimetype"`
+}
+
+// Client represents a guessit client
+type Client struct {
+	endpoint string
+}
+
+// New returns a new client
+func New(endpoint string) *Client {
+	return &Client{
+		endpoint: endpoint,
+	}
 }
 
 // Guess calls the guessit API to get the response
-func Guess(filename string) (*Response, error) {
+func (c *Client) Guess(filename string) (*Response, error) {
 	// Guess it
-	resp, err := http.Get(APIendpoint + url.QueryEscape(filename))
+	resp, err := http.Get(c.endpoint + url.QueryEscape(filename))
 	if err != nil {
 		return nil, err
 	}
