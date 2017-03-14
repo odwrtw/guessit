@@ -14,25 +14,23 @@ var (
 	ErrServer         = errors.New("guessit: server error")
 )
 
-// APIendpoint
+// APIendpoint represents the default API endpoint
 const APIendpoint = "http://guessit.quimbo.fr/guess/"
-
-// Types
-const (
-	Episode = "episode"
-	Movie   = "movie"
-)
 
 // Response from the API
 type Response struct {
-	Episode      int    `json:"episodeNumber"`
-	Quality      string `json:"screenSize"`
-	Season       int    `json:"season"`
-	ShowName     string `json:"series"`
-	Title        string `json:"title"`
 	Type         string `json:"type"`
+	Title        string `json:"title"`
+	Episode      int    `json:"episode"`
+	Season       int    `json:"season"`
 	Year         int    `json:"year"`
+	Quality      string `json:"screenSize"`
 	ReleaseGroup string `json:"releaseGroup"`
+	AudioCodec   string `json:"audio_codec"`
+	VideoCodec   string `json:"video_codec"`
+	Container    string `json:"container"`
+	Format       string `json:"format"`
+	MimeType     string `json:"mimetype"`
 }
 
 // Guess calls the guessit API to get the response
