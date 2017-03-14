@@ -14,9 +14,6 @@ var (
 	ErrServer         = errors.New("guessit: server error")
 )
 
-// APIendpoint represents the default API endpoint
-const APIendpoint = "http://guessit.quimbo.fr/guess/"
-
 // Response from the API
 type Response struct {
 	Type         string `json:"type"`
@@ -33,10 +30,22 @@ type Response struct {
 	MimeType     string `json:"mimetype"`
 }
 
+// Client represents a guessit client
+type Client struct {
+	endpoint string
+}
+
+// New returns a new client
+func New(endpoint string) *Client {
+	return &Client{
+		endpoint: endpoint,
+	}
+}
+
 // Guess calls the guessit API to get the response
-func Guess(filename string) (*Response, error) {
+func (c *Client) Guess(filename string) (*Response, error) {
 	// Guess it
-	resp, err := http.Get(APIendpoint + url.QueryEscape(filename))
+	resp, err := http.Get(c.endpoint + url.QueryEscape(filename))
 	if err != nil {
 		return nil, err
 	}
