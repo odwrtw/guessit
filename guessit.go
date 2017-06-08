@@ -21,8 +21,8 @@ type Response struct {
 	Episode      int    `json:"episode"`
 	Season       int    `json:"season"`
 	Year         int    `json:"year"`
-	Quality      string `json:"screenSize"`
-	ReleaseGroup string `json:"releaseGroup"`
+	Quality      string `json:"screen_size"`
+	ReleaseGroup string `json:"release_group"`
 	AudioCodec   string `json:"audio_codec"`
 	VideoCodec   string `json:"video_codec"`
 	Container    string `json:"container"`
