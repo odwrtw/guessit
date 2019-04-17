@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 // Errors
@@ -44,8 +45,11 @@ func New(endpoint string) *Client {
 
 // Guess calls the guessit API to get the response
 func (c *Client) Guess(filename string) (*Response, error) {
+	var httpClient = &http.Client{
+		Timeout: time.Second * 10,
+	}
 	// Guess it
-	resp, err := http.Get(c.endpoint + url.QueryEscape(filename))
+	resp, err := httpClient.Get(c.endpoint + url.QueryEscape(filename))
 	if err != nil {
 		return nil, err
 	}
