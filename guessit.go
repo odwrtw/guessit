@@ -1,11 +1,11 @@
 package guessit
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 	"time"
 )
 
@@ -14,6 +14,11 @@ var (
 	ErrInvalidRequest = errors.New("guessit: invalid request")
 	ErrServer         = errors.New("guessit: server error")
 )
+
+// Request represents the request params
+type Request struct {
+	Name string `json:"name"`
+}
 
 // Response from the API
 type Response struct {
@@ -48,8 +53,15 @@ func (c *Client) Guess(filename string) (*Response, error) {
 	var httpClient = &http.Client{
 		Timeout: time.Second * 10,
 	}
+
+	data, err := json.Marshal(Request{Name: filename})
+	if err != nil {
+		return nil, err
+	}
+
 	// Guess it
-	resp, err := httpClient.Get(c.endpoint + url.QueryEscape(filename))
+	buf := bytes.NewBuffer(data)
+	resp, err := httpClient.Post(c.endpoint, "application/json", buf)
 	if err != nil {
 		return nil, err
 	}
