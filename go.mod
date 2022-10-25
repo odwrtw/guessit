@@ -1,3 +1,3 @@
 module github.com/odwrtw/guessit
 
-go 1.12
+go 1.19
